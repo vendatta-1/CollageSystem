@@ -1,4 +1,5 @@
 ﻿
+using CollageSystem.Application.DTOs.Account;
 using CollageSystem.Core.Models;
 using CollageSystem.Core.Results;
 
@@ -12,4 +13,6 @@ public interface IUserService
     Task<OperationResult> CreateUser(AppUser user, string password);
     Task<OperationResult> CreateSuperUser(AppUser user, string password);
     Task<OperationResult> CreateStudent(AppUser user, string password);
+    Task<OperationResult> Register(RegisterDto registerModel);
+    Task<OperationResult> Login(LoginModel  loginModel);
 }

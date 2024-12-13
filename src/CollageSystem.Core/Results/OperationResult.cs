@@ -5,25 +5,24 @@ namespace CollageSystem.Core.Results;
 /// <summary>
 /// Represents the result of an operation, containing its status and any associated errors.
 /// </summary>
-public class OperationResult
+/// <remarks>
+/// Initializes a new instance of the <see cref="OperationResult"/> class with the specified status.
+/// </remarks>
+/// <param name="status">The initial status of the operation result.</param>
+/// <param name="logger">The logger instance used for logging error messages.</param>
+public class OperationResult(OperationStatus status, ILogger<OperationResult> logger)
 {
-    private readonly ILogger<OperationResult> _logger;
+    private readonly ILogger<OperationResult> _logger = logger;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="OperationResult"/> class with the specified status.
+    /// Used this to return a specific message 
     /// </summary>
-    /// <param name="status">The initial status of the operation result.</param>
-    /// <param name="logger">The logger instance used for logging error messages.</param>
-    public OperationResult(OperationStatus status, ILogger<OperationResult> logger)
-    {
-        Status = status;
-        _logger = logger;
-    }
+    public string? Message {get; set; }
 
     /// <summary>
     /// Gets the status of the operation result.
     /// </summary>
-    public OperationStatus Status { get; private set; }
+    public OperationStatus Status { get; private set; } = status;
 
     /// <summary>
     /// Gets the list of errors associated with the operation result.

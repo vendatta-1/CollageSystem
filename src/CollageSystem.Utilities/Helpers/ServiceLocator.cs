@@ -12,13 +12,15 @@ namespace CollageSystem.Utilities.Helpers
             set => _serviceProvider = value;
         }
 
-        public static T GetService<T>() where T : class
+        public static T? GetService<T>() where T : class
         {
             try
             {
                 // Ensure the service provider is set and try to get the service
                 using var service = _serviceProvider?.CreateScope();
+
                 var tService = service?.ServiceProvider.GetService<T>();
+
                 return tService ?? throw new ArgumentNullException();
             }
             catch (Exception e)
@@ -28,13 +30,15 @@ namespace CollageSystem.Utilities.Helpers
             }
         }
 
-        public static T GetRequiredService<T>() where T : class
+        public static T? GetRequiredService<T>() where T : class
         {
             try
             {
                 // Try to resolve the service; if a scoped service is required, it should be handled correctly within the DI framework
                 using var scope = _serviceProvider?.CreateScope();
+
                 var tService = scope?.ServiceProvider.GetRequiredService<T>();
+
                 return tService ?? throw new ArgumentNullException();
             }
             catch (Exception e)

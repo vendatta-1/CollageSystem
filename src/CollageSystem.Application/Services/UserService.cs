@@ -2,7 +2,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
+using AutoMapper;
+using CollageSystem.Application.DTOs.Account;
 using CollageSystem.Application.Services.Interfaces;
 using CollageSystem.Core.Models;
 using CollageSystem.Core.Models.SecurityModels;
@@ -23,16 +24,20 @@ namespace CollageSystem.Application.Services
         private readonly OperationResult _result;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IMapper _mapper;
+
 
         public UserService(UserManager<AppUser> userManager, IOptions<Jwt> options,
-            ILogger<OperationResult> operationLogger, RoleManager<IdentityRole> roleManager)
+            ILogger<OperationResult> operationLogger, RoleManager<IdentityRole> roleManager, IMapper mapper)
         {
             _userManager = userManager;
             _jwt = options.Value;
             _operationLogger = operationLogger;
             _result = new OperationResult(OperationStatus.Pending, _operationLogger);
             _roleManager = roleManager;
+            _mapper = mapper;
         }
+
 
         public async Task<string> GenerateToken(AppUser user)
         {
@@ -93,6 +98,58 @@ namespace CollageSystem.Application.Services
             return await _CreateRoleBasedUser(user, AppRoles.Student, password);
         }
 
+        public async Task<OperationResult> Register(RegisterDto registerModel)
+        {
+            try
+            {
+                var appUser = _mapper.Map<AppUser>(registerModel);
+
+                var result = await _userManager.CreateAsync(appUser, registerModel.Password ?? "password");
+                if (!result.Succeeded)
+                    throw new OperationCanceledException("the creation of the user is field");
+
+                var roleResult = await _userManager.AddToRoleAsync(appUser, AppRoles.User);
+
+                var roles = await _userManager.GetRolesAsync(appUser);
+
+
+
+                if (!roleResult.Succeeded)
+                {
+                    throw new OperationCanceledException(
+                        "there is some error while try to add the role to the user");
+                }
+
+
+                _operationLogger.LogInformation("User created a new account with password.");
+                var token = await GenerateToken(user: appUser);
+
+                _result.Message = token;
+
+                return _result;
+
+
+            }
+            catch (Exception e)
+            {
+                _operationLogger.Log(logLevel: LogLevel.Critical, message: e.Message);
+                return  _result.WithException(e).WithStatus(OperationStatus.Failure).WithErrorCode(CreateFailed);
+            }
+
+
+        }
+
+
+
+
+
+        public Task<OperationResult> Login(LoginModel loginModel)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
         private async Task<OperationResult> _CreateRoleBasedUser(AppUser user, string roleName, string password)
         {
             try
@@ -131,11 +188,7 @@ namespace CollageSystem.Application.Services
             return await _userManager.FindByNameAsync(userName) is not null;
         }
 
-/*
- * sequential
- * parallel programming
- * async programming
- */
+
         private async Task<bool> _Create(AppUser user, string password)
         {
             return (await _userManager.CreateAsync(user, password)).Succeeded;

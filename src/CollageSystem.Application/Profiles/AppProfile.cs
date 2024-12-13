@@ -1,8 +1,12 @@
 
 using AutoMapper;
+using CollageSystem.Application.DTOs.Account;
+using CollageSystem.Application.DTOs.Course;
+using CollageSystem.Application.DTOs.Department;
+using CollageSystem.Application.DTOs.Student;
 using CollageSystem.Core.Models;
 
-namespace CollageSystem.Utilities.Helpers
+namespace CollageSystem.Application.Profiles
 {
     public class AppProfile : Profile
     {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using CollageSystem.Application.Services.Interfaces;
 
-using CollageSystem.Core.Interfaces.Service;
 using CollageSystem.Core.Models;
 using CollageSystem.Core.Models.SecurityModels;
 using CollageSystem.Core.Results;
@@ -79,6 +79,7 @@ public class StudentHelper
         try
         {
             var sName = student.Name.Split(" ");
+            
             var user = new AppUser
             {
                 Email = studentInfo.UniversityEmail,
@@ -88,7 +89,9 @@ public class StudentHelper
                 LastName = sName.Length > 1 ? sName[1] : string.Empty,
                 PhoneNumber = student.PhoneNumber
             };
+            
             var result = await _userService.CreateStudent(user, studentInfo.Password);
+
             if (!result.IsSuccess)
                 return result.WithErrorCode(CreateFailed);
 
