@@ -1,3 +1,4 @@
+using CollageSystem.Core.Interfaces.Data;
 using CollageSystem.Core.Models;
 using CollageSystem.Core.Models.RelationshipEntities;
 using CollageSystem.Core.Models.SecurityModels;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CollageSystem.Data.Contexts
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IApplicationDbContext
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -91,15 +92,15 @@ namespace CollageSystem.Data.Contexts
         #region DbSets
 
 
-        public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<Professor> Professors { get; set; }
-        public virtual DbSet<Department> Departments { get; set; }
-        public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<Exam> Exams { get; set; }
-        public virtual DbSet<Grade> Grades { get; set; }
-        public virtual DbSet<StudentCourse> StudentCourses { get; set; }
-        public virtual DbSet<StudentGrade> StudentGrades { get; set; }
-        public virtual DbSet<StudentCrucialInformation> StudentCrucialInformation { get; set; }
+        //public virtual DbSet<Student> Students { get; set; }
+        //public virtual DbSet<Professor> Professors { get; set; }
+        //public virtual DbSet<Department> Departments { get; set; }
+        //public virtual DbSet<Course> Courses { get; set; }
+        //public virtual DbSet<Exam> Exams { get; set; }
+        //public virtual DbSet<Grade> Grades { get; set; }
+        //public virtual DbSet<StudentCourse> StudentCourses { get; set; }
+        //public virtual DbSet<StudentGrade> StudentGrades { get; set; }
+        //public virtual DbSet<StudentCrucialInformation> StudentCrucialInformation { get; set; }
 
         #endregion
     }

@@ -2,6 +2,9 @@
 using api.DTOs.Student;
 using api.Helpers;
 using api.Services.Interfaces;
+using CollageSystem.Application.DTOs.Student;
+using CollageSystem.Application.Services.Interfaces;
+using CollageSystem.Utilities.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 

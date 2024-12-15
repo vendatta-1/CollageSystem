@@ -139,16 +139,10 @@ namespace CollageSystem.Application.Services
 
         }
 
-
-
-
-
         public Task<OperationResult> Login(LoginModel loginModel)
         {
             throw new NotImplementedException();
         }
-
-
 
         private async Task<OperationResult> _CreateRoleBasedUser(AppUser user, string roleName, string password)
         {
@@ -187,7 +181,6 @@ namespace CollageSystem.Application.Services
         {
             return await _userManager.FindByNameAsync(userName) is not null;
         }
-
 
         private async Task<bool> _Create(AppUser user, string password)
         {

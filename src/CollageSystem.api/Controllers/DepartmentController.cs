@@ -1,8 +1,10 @@
 ﻿using System.Linq.Expressions;
-using api.DTOs.Department;
+
 using api.Helpers;
-using api.Models.SecurityModels;
-using api.Services.Interfaces;
+using CollageSystem.Application.DTOs.Department;
+using CollageSystem.Application.Services.Interfaces;
+using CollageSystem.Core.Models.SecurityModels;
+using CollageSystem.Utilities.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -75,6 +77,7 @@ public class DepartmentController : ControllerBase
             return _handleException(ex, "Error getting department by query");
         }
     }
+
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] DepartmentBaseDto department)

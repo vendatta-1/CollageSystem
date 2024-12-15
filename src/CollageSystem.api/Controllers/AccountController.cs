@@ -47,9 +47,7 @@ public class AccountController(UserManager<AppUser> userManager, ILogger<Account
                 return BadRequest(ModelState);
 
             var result = await _userService.Register(registerDto);
-            if (result.IsSuccess)
-                return StatusCode(201, new { token = result.Message });
-            return StatusCode(500, new { message = string.Join('\n', result.Errors.Select(x => x.Message)) ,errorLevels = result.Errors.Select(x=>x.Level) });
+            return result.IsSuccess ? StatusCode(201, new { token = result.Message }) : StatusCode(500, new { message = string.Join('\n', result.Errors.Select(x => x.Message)) ,errorLevels = result.Errors.Select(x=>x.Level) });
         }
         catch (Exception e)
         {

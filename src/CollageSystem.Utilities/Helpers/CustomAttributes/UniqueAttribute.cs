@@ -15,8 +15,8 @@ public class UniqueAttribute<TModel>(string propertyName) : ValidationAttribute 
             if (value == null)
                 return new ValidationResult("value is null");
 
-            IApplicationDbContext? dbContext = (IApplicationDbContext)validationContext.GetService(typeof(IApplicationDbContext)) ?? null;
-
+            var dbContext = (IApplicationDbContext)validationContext.GetService(typeof(IApplicationDbContext)) ?? null;
+            
             if (dbContext == null)
                 throw new NullReferenceException("dbContext is null");
 
